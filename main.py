@@ -1,14 +1,16 @@
-from audioop import bias
 import Neuron
 import matplotlib.pyplot as plt
 import numpy as np
 import random
-import time
+from Utilities import Logger
 
-start = time.time()
+logger = Logger(debug=True)
+# start = time.time()
 
 learning_rate = 0.00001
-num_tests = 1000
+num_training = 5000
+num_testing = 10000
+num_iterations = 1000
 
 x_max = 100
 y_max = 100
@@ -18,32 +20,33 @@ y_min = 0
 y_range = y_max - y_min
 
 slope = (random.random() * 2) - 1 # between -1 and 1
-print("Slope: ", slope)
+logger.debug("Slope: ", slope)
 
 intercept = random.random() * (y_range / 2)
 if slope < 0:
     intercept += 50
-print("Intercept: ", intercept)
+logger.debug("Intercept: ", intercept)
 
 def fun(x, intercept):
     return slope * x + intercept
+    # return (((x-10)**2)/-25) + 100
 
 x = np.linspace(x_min, x_max, x_max)
 y = fun(x, intercept)
-plt.plot(x, y)
+# TODO don't plot outside of the x/y min/max
+plt.plot(x, y, color='black')
 
 
-num_points = 500
 x_points = []
 y_points = []
-for i in range(num_points):
+for i in range(num_training):
   x_points.append(random.random() * x_max)
   y_points.append(random.random() * y_max)
 
 # x_points = np.array(x_points)
 # y_points = np.array(y_points)
 
-# for i in range(num_points):
+# for i in range(num_testing):
 # plt.plot(x_points, y_points, 'o')
 
 def desired(x, y):
@@ -54,29 +57,40 @@ def desired(x, y):
 
 neuron = Neuron.Neuron(2, learning_rate)
 
-for j in range(10000):
-  for i in range(num_points):
+for j in range(num_iterations):
+  logger.display_progress("Training: ", j, num_iterations)
+  for i in range(num_training):
     neuron.train([x_points[i], y_points[i]], desired(x_points[i], y_points[i]))
 
 num_right = 0
 x_test_cases = []
 y_test_cases = []
-for i in range(num_tests):
+for i in range(num_testing):
   x = random.random() * x_max
   y = random.random() * y_max
   x_test_cases.append(x)
   y_test_cases.append(y)
-  if desired(x, y) == neuron.activate([x, y, neuron.bias]):
+  if desired(x, y) == neuron.activate([x, y]):
       num_right += 1
+x_weight = neuron.weights[0]
+y_weight = neuron.weights[1]
+m = round(-x_weight/y_weight, 2)
+b = round(-neuron.bias/y_weight, 2)
+logger.debug("Weights: ", neuron.weights)
+logger.debug("Bias: ", neuron.bias)
+logger.debug("m = ", m)
+logger.debug("b = ", b)
+logger.debug("y = ", m, "x", " + ", b)
 
-print("Weights: ", neuron.weights)
+logger.log("Neuron is ", round((num_right / num_testing) * 100, 2), "% correct")
 
-print("Neuron is ", round((num_right / num_tests) * 100, 2), "% correct")
+# end = time.time()
 
-end = time.time()
+# time_to_complete = round(end - start, 2)
 
-time_to_complete = round(end - start, 2)
-print("Completed in ", time_to_complete, " seconds")
+logger.debug("Expected", round(slope, 2), "x +", intercept)
+logger.debug("But got ", m, "x +", b)
+# logger.log("Completed in ", time_to_complete, " seconds")
 
 x_positives = []
 y_positives = []
@@ -84,10 +98,11 @@ x_negatives = []
 y_negatives = []
 
 # Display results
-for i in range(num_tests):
+for i in range(num_testing):
+  logger.display_progress("Generating graph: ", i, num_testing)
   x = x_test_cases[i]
   y = y_test_cases[i]
-  guess = neuron.activate([x, y, neuron.bias])
+  guess = neuron.activate([x, y])
   if guess == 1:
     x_positives.append(x)
     y_positives.append(y)
@@ -95,15 +110,14 @@ for i in range(num_tests):
     x_negatives.append(x)
     y_negatives.append(y)
 
-#day one, the age and speed of 13 cars:
 x = np.array(x_positives)
 y = np.array(y_positives)
-print(len(x), " positive values")
-plt.scatter(x, y)
+logger.debug(len(x), " positive values")
+plt.scatter(x, y, color='green')
 
 x = np.array(x_negatives)
 y = np.array(y_negatives)
-print(len(x), " negative values")
-plt.scatter(x, y)
+logger.debug(len(x), " negative values")
+plt.scatter(x, y, color='red')
 
 plt.show()
