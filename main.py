@@ -5,7 +5,6 @@ import random
 from Utilities import Logger
 
 logger = Logger(debug=True)
-# start = time.time()
 
 learning_rate = 0.00001
 num_training = 5000
@@ -29,7 +28,6 @@ logger.debug("Intercept: ", intercept)
 
 def fun(x, intercept):
     return slope * x + intercept
-    # return (((x-10)**2)/-25) + 100
 
 x = np.linspace(x_min, x_max, x_max)
 y = fun(x, intercept)
@@ -42,12 +40,6 @@ y_points = []
 for i in range(num_training):
   x_points.append(random.random() * x_max)
   y_points.append(random.random() * y_max)
-
-# x_points = np.array(x_points)
-# y_points = np.array(y_points)
-
-# for i in range(num_testing):
-# plt.plot(x_points, y_points, 'o')
 
 def desired(x, y):
   if y > fun(x, intercept):
@@ -82,15 +74,10 @@ logger.debug("m = ", m)
 logger.debug("b = ", b)
 logger.debug("y = ", m, "x", " + ", b)
 
-logger.log("Neuron is ", round((num_right / num_testing) * 100, 2), "% correct")
-
-# end = time.time()
-
-# time_to_complete = round(end - start, 2)
+logger.log("Neuron is ", round((num_right / num_testing) * 100, 2), "% correct", delimiter='')
 
 logger.debug("Expected", round(slope, 2), "x +", intercept)
 logger.debug("But got ", m, "x +", b)
-# logger.log("Completed in ", time_to_complete, " seconds")
 
 x_positives = []
 y_positives = []

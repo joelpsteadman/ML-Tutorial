@@ -7,5 +7,5 @@ Run main.py with Python
 ## Commit Message Icons
 
 🐛 = Bug fix
-🏗 = Refactoring
+🏗 = Refactoring and/or clean up
 ✨ = Feature

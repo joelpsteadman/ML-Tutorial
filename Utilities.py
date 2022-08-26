@@ -27,7 +27,7 @@ class Logger:
             color = Formats.OKCYAN
         elif mode == 'LOG':
             color = Formats.OKGREEN
-        elif mode == 'PROG':
+        elif mode == 'PROGR':
             color = Formats.OKBLUE
         mode = '{0: <8}'.format('[' + mode + '] ')
         return f'{color}' + mode + f'{Formats.END}'
@@ -68,5 +68,5 @@ class Logger:
         filled = round(progress_bar_width*percent)
         space = progress_bar_width - filled
         output = title + '#'*filled + ' '*space + str(round(percent*100)) + '%              '
-        # output = self._format(''.join(output), delimiter='', mode='PROG')
-        self._output(output, mode='PROG', erase=True, delimiter='')
+        # output = self._format(''.join(output), delimiter='', mode='PROGR')
+        self._output(output, mode='PROGR', erase=True, delimiter='')
