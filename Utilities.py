@@ -25,7 +25,7 @@ class Logger:
         if mode == 'DEBUG':
             # mode = '{0: <8}'.format('[' + mode + '] ')
             color = Formats.OKCYAN
-        elif mode == 'LOG':
+        elif mode == 'INFO':
             color = Formats.OKGREEN
         elif mode == 'PROGR':
             color = Formats.OKBLUE
@@ -53,9 +53,9 @@ class Logger:
             print(output)
             # print(f"{Formats.WARNING}Warning: No active frommets remain. Continue?{Formats.END}")
 
-    def log(self, *args, erase=False, delimiter=' '):
-        # output = self._format(args, delimiter, mode='LOG') + '                                '
-        self._output(args, mode='LOG', erase=erase, delimiter=delimiter)
+    def info(self, *args, erase=False, delimiter=' '):
+        # output = self._format(args, delimiter, mode='INFO') + '                                '
+        self._output(args, mode='INFO', erase=erase, delimiter=delimiter)
 
     def debug(self, *args, erase=False, delimiter=' '):
         if self.show_debugging:
