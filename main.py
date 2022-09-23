@@ -31,7 +31,6 @@ training_set = data.generate_training_set(num_training)
 x_points = training_set[0]
 y_points = training_set[1]
 
-
 neuron = Neuron.Neuron(2, learning_rate)
 
 # TODO does increasing the num_iterations do the same thing as increasing the learning rate?
@@ -78,7 +77,6 @@ for x, y in zip(training_data[0], training_data[1]):
   else:
     x_negatives.append(x)
     y_negatives.append(y)
-
 
 logger.debug(len(x_positives), "positive values")
 logger.debug(len(x_negatives), "negative values")

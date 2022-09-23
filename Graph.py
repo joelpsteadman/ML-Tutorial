@@ -31,9 +31,9 @@ class Graph:
 
         x = np.array(x_positives)
         y = np.array(y_positives)
-        plt.scatter(x, y, color='green')
+        plt.scatter(x, y, color='turquoise', s=1)
 
         x = np.array(x_negatives)
         y = np.array(y_negatives)
-        plt.scatter(x, y, color='red')
+        plt.scatter(x, y, color='gray', s=1)
         plt.show()

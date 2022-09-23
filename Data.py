@@ -22,6 +22,10 @@ class Data_Set:
 
     def separation_function(self, x):
         return self.slope * x + self.intercept
+        # return (((x-50)**2)/-30) + 90 # formula for testing non-linear functions
+        # return x**2
+        # return 10*(x**.5)
+        # return .01*(x**2)
 
     def desired(self, x, y):
         if y > self.separation_function(x):
