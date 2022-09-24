@@ -31,7 +31,7 @@ training_set = data.generate_training_set(num_training)
 x_points = training_set[0]
 y_points = training_set[1]
 
-neuron = Neuron.Neuron(2, learning_rate)
+neuron = Neuron.Neuron(2, "Binar Step", learning_rate)
 
 # TODO does increasing the num_iterations do the same thing as increasing the learning rate?
 for j in range(num_iterations):
